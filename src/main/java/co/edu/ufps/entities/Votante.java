@@ -1,24 +1,24 @@
-package model;
+package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 
 /**
- * The persistent class for the candidato database table.
+ * The persistent class for the votante database table.
  * 
  */
 @Entity
-@NamedQuery(name="Candidato.findAll", query="SELECT c FROM Candidato c")
-public class Candidato implements Serializable {
+@NamedQuery(name="Votante.findAll", query="SELECT v FROM Votante v")
+public class Votante implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private int id;
 
-	private String apellido;
-
 	private String documento;
+
+	private String email;
 
 	private String nombre;
 
@@ -27,11 +27,16 @@ public class Candidato implements Serializable {
 	@JoinColumn(name="id")
 	private Eleccion eleccion;
 
+	//bi-directional one-to-one association to Tipodocumento
+	@OneToOne
+	@JoinColumn(name="id")
+	private Tipodocumento tipodocumento;
+
 	//bi-directional one-to-one association to Voto
-	@OneToOne(mappedBy="candidato")
+	@OneToOne(mappedBy="votante")
 	private Voto voto;
 
-	public Candidato() {
+	public Votante() {
 	}
 
 	public int getId() {
@@ -42,20 +47,20 @@ public class Candidato implements Serializable {
 		this.id = id;
 	}
 
-	public String getApellido() {
-		return this.apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
 	public String getDocumento() {
 		return this.documento;
 	}
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getNombre() {
@@ -72,6 +77,14 @@ public class Candidato implements Serializable {
 
 	public void setEleccion(Eleccion eleccion) {
 		this.eleccion = eleccion;
+	}
+
+	public Tipodocumento getTipodocumento() {
+		return this.tipodocumento;
+	}
+
+	public void setTipodocumento(Tipodocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
 	}
 
 	public Voto getVoto() {

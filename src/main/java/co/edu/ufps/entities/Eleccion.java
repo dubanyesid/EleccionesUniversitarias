@@ -1,4 +1,4 @@
-package model;
+package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -6,43 +6,38 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the voto database table.
+ * The persistent class for the eleccion database table.
  * 
  */
 @Entity
-@NamedQuery(name="Voto.findAll", query="SELECT v FROM Voto v")
-public class Voto implements Serializable {
+@NamedQuery(name="Eleccion.findAll", query="SELECT e FROM Eleccion e")
+public class Eleccion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private int id;
 
-	private String enlace;
+	@Temporal(TemporalType.DATE)
+	private Date fechafin;
 
 	@Temporal(TemporalType.DATE)
-	private Date fechacreacion;
+	private Date fechainicio;
 
-	@Temporal(TemporalType.DATE)
-	private Date fechavoto;
-
-	private String uuid;
+	private String nombre;
 
 	//bi-directional one-to-one association to Candidato
-	@OneToOne
-	@JoinColumn(name="id")
+	@OneToOne(mappedBy="eleccion")
 	private Candidato candidato;
 
 	//bi-directional one-to-one association to Estamento
-	@OneToOne
-	@JoinColumn(name="id")
+	@OneToOne(mappedBy="eleccion")
 	private Estamento estamento;
 
 	//bi-directional one-to-one association to Votante
-	@OneToOne
-	@JoinColumn(name="id")
+	@OneToOne(mappedBy="eleccion")
 	private Votante votante;
 
-	public Voto() {
+	public Eleccion() {
 	}
 
 	public int getId() {
@@ -53,36 +48,28 @@ public class Voto implements Serializable {
 		this.id = id;
 	}
 
-	public String getEnlace() {
-		return this.enlace;
+	public Date getFechafin() {
+		return this.fechafin;
 	}
 
-	public void setEnlace(String enlace) {
-		this.enlace = enlace;
+	public void setFechafin(Date fechafin) {
+		this.fechafin = fechafin;
 	}
 
-	public Date getFechacreacion() {
-		return this.fechacreacion;
+	public Date getFechainicio() {
+		return this.fechainicio;
 	}
 
-	public void setFechacreacion(Date fechacreacion) {
-		this.fechacreacion = fechacreacion;
+	public void setFechainicio(Date fechainicio) {
+		this.fechainicio = fechainicio;
 	}
 
-	public Date getFechavoto() {
-		return this.fechavoto;
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setFechavoto(Date fechavoto) {
-		this.fechavoto = fechavoto;
-	}
-
-	public String getUuid() {
-		return this.uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Candidato getCandidato() {

@@ -1,4 +1,4 @@
-package model;
+package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;

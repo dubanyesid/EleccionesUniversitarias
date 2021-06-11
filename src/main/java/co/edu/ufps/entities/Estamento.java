@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -14,42 +15,67 @@ public class Estamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
-	//bi-directional one-to-one association to Eleccion
-	@OneToOne
-	@JoinColumn(name="id")
-	private Eleccion eleccion;
+	private String descripcion;
 
-	//bi-directional one-to-one association to Voto
-	@OneToOne(mappedBy="estamento")
-	private Voto voto;
+	//bi-directional many-to-one association to Eleccion
+	@ManyToOne
+	@JoinColumn(name="eleccion")
+	private Eleccion eleccionBean;
+
+	//bi-directional many-to-one association to Voto
+	@OneToMany(mappedBy="estamentoBean")
+	private List<Voto> votos;
 
 	public Estamento() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Eleccion getEleccion() {
-		return this.eleccion;
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
-		this.eleccion = eleccion;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
-	public Voto getVoto() {
-		return this.voto;
+	public Eleccion getEleccionBean() {
+		return this.eleccionBean;
 	}
 
-	public void setVoto(Voto voto) {
-		this.voto = voto;
+	public void setEleccionBean(Eleccion eleccionBean) {
+		this.eleccionBean = eleccionBean;
+	}
+
+	public List<Voto> getVotos() {
+		return this.votos;
+	}
+
+	public void setVotos(List<Voto> votos) {
+		this.votos = votos;
+	}
+
+	public Voto addVoto(Voto voto) {
+		getVotos().add(voto);
+		voto.setEstamentoBean(this);
+
+		return voto;
+	}
+
+	public Voto removeVoto(Voto voto) {
+		getVotos().remove(voto);
+		voto.setEstamentoBean(null);
+
+		return voto;
 	}
 
 }

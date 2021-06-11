@@ -2,7 +2,7 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -15,41 +15,40 @@ public class Voto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
 	private String enlace;
 
-	@Temporal(TemporalType.DATE)
-	private Date fechacreacion;
+	private Timestamp fechacreacion;
 
-	@Temporal(TemporalType.DATE)
-	private Date fechavoto;
+	private Timestamp fechavoto;
 
 	private String uuid;
 
-	//bi-directional one-to-one association to Candidato
-	@OneToOne
-	@JoinColumn(name="id")
-	private Candidato candidato;
+	//bi-directional many-to-one association to Candidato
+	@ManyToOne
+	@JoinColumn(name="candidato")
+	private Candidato candidatoBean;
 
-	//bi-directional one-to-one association to Estamento
-	@OneToOne
-	@JoinColumn(name="id")
-	private Estamento estamento;
+	//bi-directional many-to-one association to Estamento
+	@ManyToOne
+	@JoinColumn(name="estamento")
+	private Estamento estamentoBean;
 
-	//bi-directional one-to-one association to Votante
-	@OneToOne
-	@JoinColumn(name="id")
-	private Votante votante;
+	//bi-directional many-to-one association to Votante
+	@ManyToOne
+	@JoinColumn(name="votante")
+	private Votante votanteBean;
 
 	public Voto() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -61,19 +60,19 @@ public class Voto implements Serializable {
 		this.enlace = enlace;
 	}
 
-	public Date getFechacreacion() {
+	public Timestamp getFechacreacion() {
 		return this.fechacreacion;
 	}
 
-	public void setFechacreacion(Date fechacreacion) {
+	public void setFechacreacion(Timestamp fechacreacion) {
 		this.fechacreacion = fechacreacion;
 	}
 
-	public Date getFechavoto() {
+	public Timestamp getFechavoto() {
 		return this.fechavoto;
 	}
 
-	public void setFechavoto(Date fechavoto) {
+	public void setFechavoto(Timestamp fechavoto) {
 		this.fechavoto = fechavoto;
 	}
 
@@ -85,28 +84,28 @@ public class Voto implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public Candidato getCandidato() {
-		return this.candidato;
+	public Candidato getCandidatoBean() {
+		return this.candidatoBean;
 	}
 
-	public void setCandidato(Candidato candidato) {
-		this.candidato = candidato;
+	public void setCandidatoBean(Candidato candidatoBean) {
+		this.candidatoBean = candidatoBean;
 	}
 
-	public Estamento getEstamento() {
-		return this.estamento;
+	public Estamento getEstamentoBean() {
+		return this.estamentoBean;
 	}
 
-	public void setEstamento(Estamento estamento) {
-		this.estamento = estamento;
+	public void setEstamentoBean(Estamento estamentoBean) {
+		this.estamentoBean = estamentoBean;
 	}
 
-	public Votante getVotante() {
-		return this.votante;
+	public Votante getVotanteBean() {
+		return this.votanteBean;
 	}
 
-	public void setVotante(Votante votante) {
-		this.votante = votante;
+	public void setVotanteBean(Votante votanteBean) {
+		this.votanteBean = votanteBean;
 	}
 
 }

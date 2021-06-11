@@ -2,7 +2,8 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -15,52 +16,68 @@ public class Eleccion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
-	@Temporal(TemporalType.DATE)
-	private Date fechafin;
+	private String cargo;
 
-	@Temporal(TemporalType.DATE)
-	private Date fechainicio;
+	private Timestamp fechafin;
+
+	private Timestamp fechainicio;
 
 	private String nombre;
 
-	//bi-directional one-to-one association to Candidato
-	@OneToOne(mappedBy="eleccion")
-	private Candidato candidato;
+	//bi-directional many-to-one association to Candidato
+	@OneToMany(mappedBy="eleccionBean")
+	private List<Candidato> candidatos;
 
-	//bi-directional one-to-one association to Estamento
-	@OneToOne(mappedBy="eleccion")
-	private Estamento estamento;
+	//bi-directional many-to-one association to Estamento
+	@OneToMany(mappedBy="eleccionBean")
+	private List<Estamento> estamentos;
 
-	//bi-directional one-to-one association to Votante
-	@OneToOne(mappedBy="eleccion")
-	private Votante votante;
+	//bi-directional many-to-one association to Votante
+	@OneToMany(mappedBy="eleccionBean")
+	private List<Votante> votantes;
 
 	public Eleccion() {
 	}
 
-	public int getId() {
+	public Eleccion(String cargo, Timestamp fechafin, Timestamp fechainicio, String nombre) {
+		super();
+		this.cargo = cargo;
+		this.fechafin = fechafin;
+		this.fechainicio = fechainicio;
+		this.nombre = nombre;
+	}
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Date getFechafin() {
+	public String getCargo() {
+		return this.cargo;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+
+	public Timestamp getFechafin() {
 		return this.fechafin;
 	}
 
-	public void setFechafin(Date fechafin) {
+	public void setFechafin(Timestamp fechafin) {
 		this.fechafin = fechafin;
 	}
 
-	public Date getFechainicio() {
+	public Timestamp getFechainicio() {
 		return this.fechainicio;
 	}
 
-	public void setFechainicio(Date fechainicio) {
+	public void setFechainicio(Timestamp fechainicio) {
 		this.fechainicio = fechainicio;
 	}
 
@@ -72,28 +89,70 @@ public class Eleccion implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Candidato getCandidato() {
-		return this.candidato;
+	public List<Candidato> getCandidatos() {
+		return this.candidatos;
 	}
 
-	public void setCandidato(Candidato candidato) {
-		this.candidato = candidato;
+	public void setCandidatos(List<Candidato> candidatos) {
+		this.candidatos = candidatos;
 	}
 
-	public Estamento getEstamento() {
-		return this.estamento;
+	public Candidato addCandidato(Candidato candidato) {
+		getCandidatos().add(candidato);
+		candidato.setEleccionBean(this);
+
+		return candidato;
 	}
 
-	public void setEstamento(Estamento estamento) {
-		this.estamento = estamento;
+	public Candidato removeCandidato(Candidato candidato) {
+		getCandidatos().remove(candidato);
+		candidato.setEleccionBean(null);
+
+		return candidato;
 	}
 
-	public Votante getVotante() {
-		return this.votante;
+	public List<Estamento> getEstamentos() {
+		return this.estamentos;
 	}
 
-	public void setVotante(Votante votante) {
-		this.votante = votante;
+	public void setEstamentos(List<Estamento> estamentos) {
+		this.estamentos = estamentos;
+	}
+
+	public Estamento addEstamento(Estamento estamento) {
+		getEstamentos().add(estamento);
+		estamento.setEleccionBean(this);
+
+		return estamento;
+	}
+
+	public Estamento removeEstamento(Estamento estamento) {
+		getEstamentos().remove(estamento);
+		estamento.setEleccionBean(null);
+
+		return estamento;
+	}
+
+	public List<Votante> getVotantes() {
+		return this.votantes;
+	}
+
+	public void setVotantes(List<Votante> votantes) {
+		this.votantes = votantes;
+	}
+
+	public Votante addVotante(Votante votante) {
+		getVotantes().add(votante);
+		votante.setEleccionBean(this);
+
+		return votante;
+	}
+
+	public Votante removeVotante(Votante votante) {
+		getVotantes().remove(votante);
+		votante.setEleccionBean(null);
+
+		return votante;
 	}
 
 }

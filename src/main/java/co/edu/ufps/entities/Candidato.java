@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -14,7 +15,8 @@ public class Candidato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
 	private String apellido;
 
@@ -22,23 +24,34 @@ public class Candidato implements Serializable {
 
 	private String nombre;
 
-	//bi-directional one-to-one association to Eleccion
-	@OneToOne
-	@JoinColumn(name="id")
-	private Eleccion eleccion;
+	private Integer numero;
 
-	//bi-directional one-to-one association to Voto
-	@OneToOne(mappedBy="candidato")
-	private Voto voto;
+	//bi-directional many-to-one association to Eleccion
+	@ManyToOne
+	@JoinColumn(name="eleccion")
+	private Eleccion eleccionBean;
+
+	//bi-directional many-to-one association to Voto
+	@OneToMany(mappedBy="candidatoBean")
+	private List<Voto> votos;
 
 	public Candidato() {
 	}
+	
+	public Candidato(String apellido, String documento, String nombre, Integer numero, Eleccion eleccionBean) {
+		super();
+		this.apellido = apellido;
+		this.documento = documento;
+		this.nombre = nombre;
+		this.numero = numero;
+		this.eleccionBean = eleccionBean;
+	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -66,20 +79,42 @@ public class Candidato implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Eleccion getEleccion() {
-		return this.eleccion;
+	public Integer getNumero() {
+		return this.numero;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
-		this.eleccion = eleccion;
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
-	public Voto getVoto() {
-		return this.voto;
+	public Eleccion getEleccionBean() {
+		return this.eleccionBean;
 	}
 
-	public void setVoto(Voto voto) {
-		this.voto = voto;
+	public void setEleccionBean(Eleccion eleccionBean) {
+		this.eleccionBean = eleccionBean;
+	}
+
+	public List<Voto> getVotos() {
+		return this.votos;
+	}
+
+	public void setVotos(List<Voto> votos) {
+		this.votos = votos;
+	}
+
+	public Voto addVoto(Voto voto) {
+		getVotos().add(voto);
+		voto.setCandidatoBean(this);
+
+		return voto;
+	}
+
+	public Voto removeVoto(Voto voto) {
+		getVotos().remove(voto);
+		voto.setCandidatoBean(null);
+
+		return voto;
 	}
 
 }

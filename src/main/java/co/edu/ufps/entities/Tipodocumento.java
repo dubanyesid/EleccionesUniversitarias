@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -14,22 +15,23 @@ public class Tipodocumento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
 	private String descripcion;
 
-	//bi-directional one-to-one association to Votante
-	@OneToOne(mappedBy="tipodocumento")
-	private Votante votante;
+	//bi-directional many-to-one association to Votante
+	@OneToMany(mappedBy="tipodocumentoBean")
+	private List<Votante> votantes;
 
 	public Tipodocumento() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -41,12 +43,26 @@ public class Tipodocumento implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Votante getVotante() {
-		return this.votante;
+	public List<Votante> getVotantes() {
+		return this.votantes;
 	}
 
-	public void setVotante(Votante votante) {
-		this.votante = votante;
+	public void setVotantes(List<Votante> votantes) {
+		this.votantes = votantes;
+	}
+
+	public Votante addVotante(Votante votante) {
+		getVotantes().add(votante);
+		votante.setTipodocumentoBean(this);
+
+		return votante;
+	}
+
+	public Votante removeVotante(Votante votante) {
+		getVotantes().remove(votante);
+		votante.setTipodocumentoBean(null);
+
+		return votante;
 	}
 
 }

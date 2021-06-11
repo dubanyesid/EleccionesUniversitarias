@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -14,7 +15,8 @@ public class Votante implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
 	private String documento;
 
@@ -22,28 +24,37 @@ public class Votante implements Serializable {
 
 	private String nombre;
 
-	//bi-directional one-to-one association to Eleccion
-	@OneToOne
-	@JoinColumn(name="id")
-	private Eleccion eleccion;
+	//bi-directional many-to-one association to Eleccion
+	@ManyToOne
+	@JoinColumn(name="eleccion")
+	private Eleccion eleccionBean;
 
-	//bi-directional one-to-one association to Tipodocumento
-	@OneToOne
-	@JoinColumn(name="id")
-	private Tipodocumento tipodocumento;
+	//bi-directional many-to-one association to Tipodocumento
+	@ManyToOne
+	@JoinColumn(name="tipodocumento")
+	private Tipodocumento tipodocumentoBean;
 
-	//bi-directional one-to-one association to Voto
-	@OneToOne(mappedBy="votante")
-	private Voto voto;
+	//bi-directional many-to-one association to Voto
+	@OneToMany(mappedBy="votanteBean")
+	private List<Voto> votos;
 
 	public Votante() {
 	}
+	public Votante(String documento, String email, String nombre, Eleccion eleccionBean,
+			Tipodocumento tipodocumentoBean) {
+		super();
+		this.documento = documento;
+		this.email = email;
+		this.nombre = nombre;
+		this.eleccionBean = eleccionBean;
+		this.tipodocumentoBean = tipodocumentoBean;
+	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,28 +82,42 @@ public class Votante implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Eleccion getEleccion() {
-		return this.eleccion;
+	public Eleccion getEleccionBean() {
+		return this.eleccionBean;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
-		this.eleccion = eleccion;
+	public void setEleccionBean(Eleccion eleccionBean) {
+		this.eleccionBean = eleccionBean;
 	}
 
-	public Tipodocumento getTipodocumento() {
-		return this.tipodocumento;
+	public Tipodocumento getTipodocumentoBean() {
+		return this.tipodocumentoBean;
 	}
 
-	public void setTipodocumento(Tipodocumento tipodocumento) {
-		this.tipodocumento = tipodocumento;
+	public void setTipodocumentoBean(Tipodocumento tipodocumentoBean) {
+		this.tipodocumentoBean = tipodocumentoBean;
 	}
 
-	public Voto getVoto() {
-		return this.voto;
+	public List<Voto> getVotos() {
+		return this.votos;
 	}
 
-	public void setVoto(Voto voto) {
-		this.voto = voto;
+	public void setVotos(List<Voto> votos) {
+		this.votos = votos;
+	}
+
+	public Voto addVoto(Voto voto) {
+		getVotos().add(voto);
+		voto.setVotanteBean(this);
+
+		return voto;
+	}
+
+	public Voto removeVoto(Voto voto) {
+		getVotos().remove(voto);
+		voto.setVotanteBean(null);
+
+		return voto;
 	}
 
 }

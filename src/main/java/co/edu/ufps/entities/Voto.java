@@ -10,7 +10,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Voto.findAll", query="SELECT v FROM Voto v")
+@NamedQueries({@NamedQuery(name="Voto.findAll", query="SELECT v FROM Voto v")
+,@NamedQuery(name="Voto.findUUID", query="SELECT v FROM Voto v WHERE v.uuid =:uuid")})
+
 public class Voto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +44,9 @@ public class Voto implements Serializable {
 	private Votante votanteBean;
 
 	public Voto() {
+		
 	}
+	
 
 	public Integer getId() {
 		return this.id;

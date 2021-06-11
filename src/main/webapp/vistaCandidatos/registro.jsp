@@ -1,14 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="UTF-8"%>
 <%@page import="co.edu.ufps.entities.*"%>
 <%@page import="co.edu.ufps.dao.*"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="../css/styleCandidato.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../css/styleCandidato.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script
@@ -22,41 +24,34 @@
 	rel="stylesheet">
 <link href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
 	rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 <title>Registrar Candidato</title>
 </head>
 <body>
 
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: red" id="containerTitulos">
+			style="background-color: #38C953">
 			<div>
 				<a href="https://www.javaguides.net" class="navbar-brand"><h1>Registrar
-						Candidato</h1> Candidatos Management App </a>
+						Candidatos</h1> Candidatos Management App </a>
 			</div>
 		</nav>
 	</header>
 
-
 	<hr>
 	<div id="botones" class="container text-left">
-		<div id="containerMenus">
-			<a href="<%=request.getContextPath()%>/CandidatoController?action=index" class="btn btn-success containerMenu">Ir al
-				menÃº</a> 
-			<a href="<%=request.getContextPath()%>/vistaCandidato/mostrar.jsp"
-				class="btn btn-success containerMenu">Listar Candidato</a>
-		</div>
 		
+		<a href="<%=request.getContextPath()%>/CandidatoServlet?action=index" class="btn btn-success">Ir al
+			menú</a> <a href="<%=request.getContextPath()%>/vistaCandidatos/mostrar.jsp"
+			class="btn btn-success">Listar Candidatos</a>
 	</div>
 
 	<div class="container">
 		<div class="card">
 			<div class="card-body">
-				<form action="${pageContext.request.contextPath}/CandidatoController?action=register" method="post">
-					<div class="form-group">
-						<label for="validation01">ID</label> <input type="text"
-							class="form-control" placeholder="id" name="id">
-					</div>
+				<form action="${pageContext.request.contextPath}/CandidatoServlet?action=register" method="post">
+				
 					<div class="form-group">
 						<label for="validation01">Documento</label> <input type="text"
 							class="form-control" placeholder="Documento" name="documento">
@@ -68,17 +63,24 @@
 					<div class="form-group">
 						<label for="validation01">Apellido</label> <input type="text"
 							class="form-control" placeholder="Apellido" name="apellido">
-					</div> 
-						<div class="form-group">
-						<label for="validation01">ElecciÃ³n</label> <input type="text"
-							class="form-control" placeholder="Eleccion" name="eleccion">
 					</div>
-						<div class="form-group">
-						<label for="validation01">NÃºmero</label> <input type="number"
+					<div class="form-group">
+
+       					
+       					<select name="eleccion">
+  						<option>Seleccionar eleccion</option> 
+       					 <% for(Eleccion e: new EleccionDAO().list()){%>
+          			 	<option value="<%=e.getId()%>"><%=e.getId()%> - <%=e.getNombre()%> </option>
+       						 <% }%>
+						</select>
+
+					</div>
+					<div class="form-group">
+						<label for="validation01">Numero</label> <input type="number"
 							class="form-control" placeholder="Numero" name="numero">
 					</div>
 					
-						<input type="submit" class="btn btn-success btnFinal" value="Agregar"
+						<input type="submit" class="btn btn-success" value="Agregar"
 							name="agregar">
 					
 				</form>
@@ -86,5 +88,18 @@
 		</div>
 	</div>
 
+	<footer>
+        <div class="row">
+            <div class="col-md-3">
+                <ul id="ul-con" type="none">
+                    <b>Contacto</b>
+                    <li>Email: juansebastiansp@ufps.edu.co</li>
+                    <li>Cel: +57 3219810616</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <p>2021 © All Rights Reserved. Desarrollado por JUAN SEBASTIAN SANCHEZ PRADA </p>
+    </footer>
 </body>
 </html>

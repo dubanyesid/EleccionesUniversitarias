@@ -19,11 +19,17 @@ public class ConexionPostgreSQL implements ConexionFactory {
 	private ConexionPostgreSQL() {
 	
 		
-		 String host = "kashin.db.elephantsql.com";
+		/*String host = "kashin.db.elephantsql.com";
 		String db = "mpybktnb";
 		String url = "jdbc:postgresql://" + host + ":5432/" + db;
 		String user = "mpybktnb";
 		String password = "WhyxLHVX1nhKKGqqdEHfXNUYo4wS3HVA";
+		*/
+		String host = "localhost";
+		String db = "elecciones2";
+		String url = "jdbc:postgresql://" + host + ":5432/" + db;
+		String user = "postgres";
+		String password = "123";
 		
 		
 		try {
@@ -95,7 +101,7 @@ public class ConexionPostgreSQL implements ConexionFactory {
 	}
 
 	// COMPROBAR
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		ConexionPostgreSQL cp = new ConexionPostgreSQL();
 
 		ResultSet r = cp.consultar("Select * from eleccion");
@@ -103,9 +109,8 @@ public class ConexionPostgreSQL implements ConexionFactory {
 			while (r.next()) {
 				int id = r.getInt(1);
 				String nombre = r.getString("nombre");
-				Date fechainicio = r.getDate("fechainicio");
-				Date fechafin = r.getDate("fechafin");
-				String cargo = r.getString("cargo");
+				
+				
 				System.out.print("\n" + id + "nombre" +nombre);
 			}
 
@@ -114,5 +119,5 @@ public class ConexionPostgreSQL implements ConexionFactory {
 		}
 
 		cp.cerrarConexion();
-	}*/
+	}
 }

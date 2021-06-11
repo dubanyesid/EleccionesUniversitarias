@@ -2,6 +2,8 @@ package co.edu.ufps.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,7 +12,8 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Votante.findAll", query="SELECT v FROM Votante v")
+@NamedQueries({@NamedQuery(name="Votante.findAll", query="SELECT v FROM Votante v")
+,@NamedQuery(name="Votante.findCC", query="SELECT v FROM Votante v WHERE v.documento =:documento")})
 public class Votante implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -40,6 +43,7 @@ public class Votante implements Serializable {
 
 	public Votante() {
 	}
+	
 	public Votante(String documento, String email, String nombre, Eleccion eleccionBean,
 			Tipodocumento tipodocumentoBean) {
 		super();

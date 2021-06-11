@@ -25,7 +25,7 @@ public class Conexion <T> {
 	
 	public static EntityManager getEm(){
 		if ( em == null ) {
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("ORM");
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("EleccionesUniversitarias");
             em = emf.createEntityManager();
         }
 		return em;

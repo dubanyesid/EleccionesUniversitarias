@@ -36,9 +36,9 @@
 	<div class="container">
 		<hr>
 		<div id="botones" class="container text-left">
-			<a href="indexCandidatos.jsp"
+			<a href="indexCandidato.jsp"
 					class="btn btn-success">Ir a Candidatos</a> 
-			<a href="indexVotantes.jsp" class="btn btn-success">Ir a votantes</a>
+			<a href="indexVotante.jsp" class="btn btn-success">Ir a votantes</a>
 		</div>
 	</div>
 <% 
